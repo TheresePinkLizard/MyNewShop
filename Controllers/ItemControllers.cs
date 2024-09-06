@@ -9,29 +9,55 @@ namespace MyNewShop.Controllers;
 
 public class ItemController : Controller
 {
-    // en action som korresponderer til en bruker interaksjon, slik som å liste opp items når en url lastes
+    // en action som korresponderer til en brukers interaksjon, slik som å liste opp items når en url lastes
     public IActionResult Table()
-    {
-        var items = new List<Item>();
-        var item1 = new Item();
-        item1.ItemId = 1;
-        item1.Name = "Pizza";
-        item1.Price = 60;
-
-        var item2 = new Item
-        {
-            ItemId = 2,
-            Name = "Fried Chicken Leg",
-            Price = 15
-        };
-
-        items.Add(item1);
-        items.Add(item2);
-
-        ViewBag.CurrentViewName = "List of Shop Items"; // endrer H1 tittel 
-
+    {  
+        var items = GetItems();
+        ViewBag.CurrentViewName = "Table";
         // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
         // denne returnerer en view
         return View(items);
+    }
+    public IActionResult Grid()
+    {
+        var items = GetItems();
+        ViewBag.CurrentViewName = "Grid";
+        return View(items);
+    }
+    public List<Item> GetItems()
+    {
+        var items = new List<Item>();
+        var item1 = new Item
+        {
+            ItemId = 1,
+            Name = "Pizza",
+            Price = 150,
+            Description = "Delicious Italian dish",
+            ImageUrl = "/images/pizza.jpg"
+        };
+        var item2 = new Item
+         {
+            ItemId = 2,
+            Name = "Fish and Chips",
+            Price = 110,
+            Description = "Delicious British dish",
+            ImageUrl = "/images/fishandchips.jpg"
+        };
+        var item3 = new Item
+         {
+            ItemId = 3,
+            Name = "Tacos",
+            Price = 140,
+            Description = "Delicious Mexican dish",
+            ImageUrl = "/images/tacos.jpg"
+        };
+     
+       
+       items.Add(item1);
+       items.Add(item2);
+       items.Add(item3);
+      
+       return items;
+
     }
 }

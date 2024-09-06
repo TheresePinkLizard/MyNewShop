@@ -30,3 +30,4 @@ C:\Users\there\Documents\Høsten 2024 Skole\webapplikasjoner2\MyNewShop\obj\Debu
 C:\Users\there\Documents\Høsten 2024 Skole\webapplikasjoner2\MyNewShop\obj\Debug\net8.0\scopedcss\projectbundle\MyNewShop.bundle.scp.css
 C:\Users\there\Documents\Høsten 2024 Skole\webapplikasjoner2\MyNewShop\bin\Debug\net8.0\package-lock.json
 C:\Users\there\Documents\Høsten 2024 Skole\webapplikasjoner2\MyNewShop\bin\Debug\net8.0\package.json
+C:\Users\there\Documents\Høsten 2024 Skole\webapplikasjoner2\MyNewShop\obj\Debug\net8.0\MyNewShop.sourcelink.json
