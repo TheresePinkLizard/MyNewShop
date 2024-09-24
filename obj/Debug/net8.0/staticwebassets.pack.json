@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\MyNewShop.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\there\\Documents\\Høsten 2024 Skole\\webapplikasjoner2\\MyNewShop\\wwwroot\\Images\\Flag_of_Norway.png",
+      "PackagePath": "staticwebassets\\Images\\Flag_of_Norway.png"
+    },
+    {
+      "Id": "C:\\Users\\there\\Documents\\Høsten 2024 Skole\\webapplikasjoner2\\MyNewShop\\wwwroot\\Images\\Flag_of_Sweden.svg.png",
+      "PackagePath": "staticwebassets\\Images\\Flag_of_Sweden.svg.png"
+    },
+    {
       "Id": "C:\\Users\\there\\Documents\\Høsten 2024 Skole\\webapplikasjoner2\\MyNewShop\\wwwroot\\Images\\chickenleg.jpg",
       "PackagePath": "staticwebassets\\Images\\chickenleg.jpg"
     },
