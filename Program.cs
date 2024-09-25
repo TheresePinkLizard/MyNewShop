@@ -1,8 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using MyNewShop.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //kode for å legge til services for å håndtere  controllere og views til dependency injection container, som
 //setter den opp til å bruke MVC
 builder.Services.AddControllersWithViews();
+
+// registrering av dbContext
+builder.Services.AddDbContext<ItemDbContext>(options =>{
+    options.UseSqlite(
+        builder.Configuration["ConnectionStrings:ItemDbContextConnection"]);
+});
+
 
 var app = builder.Build();
 

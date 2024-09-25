@@ -10,10 +10,21 @@ namespace MyNewShop.Controllers;
 
 public class ItemController : Controller
 {
+
+    private readonly ItemDbContext _itemDbContext; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
+
+    public ItemController(ItemDbContext itemDbContext) // konstruktør som tar en ItemDbContext instans som et parameter og assigner til _itemDbContext 
+    {                                                           // Dette er et eksempel på en dependency injectionm hvor DbContext is provided to the controllerer via ASP.NET Core rammeverk.
+        _itemDbContext = itemDbContext;                         //Konstruktøren blir kalt når en instans er laget, vanligvis under behandling av inkommende HTTP request. Når Views er kalt. eks: table grid, details
+    }
+
+
     // en action som korresponderer til en brukers interaksjon, slik som å liste opp items når en url lastes
     public IActionResult Table()
     {  
-        var items = GetItems();
+        // henter alle items fra items table i databasen og konverterer til en liste
+        List<Item> items = _itemDbContext.Items.ToList();
+
         var itemsViewModel = new ItemsViewModel(items, "Table");
         // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
         // denne returnerer en view
@@ -22,19 +33,25 @@ public class ItemController : Controller
 
     public IActionResult Grid()
     {
-        var items = GetItems();
+        List<Item> items = _itemDbContext.Items.ToList();
         var itemsViewModel = new ItemsViewModel(items, "Grid");
         return View(itemsViewModel);
     }
 
     public IActionResult Details(int id)
     {
-        var items = GetItems();
+        List<Item> items = _itemDbContext.Items.ToList();
         var item = items.FirstOrDefault(i => i.ItemId == id); // søker igjennom listen items til første som matcher id
         if (item == null)
             return NotFound();
         return View(item); // returnerer view med et item
     }
+
+
+
+    /*
+    ikke behov for denne koden lengre når database kode ble implementert
+
     public List<Item> GetItems()
     {
         var items = new List<Item>(); // Liste med alle items
@@ -71,6 +88,7 @@ public class ItemController : Controller
        return items;
 
     }
+    */
     
 }
 

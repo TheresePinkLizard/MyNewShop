@@ -1,0 +1,20 @@
+@model Item
+
+<div class="col"> <!--col represents a column in the grid for each item-->
+                
+    <div>
+        <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
+        <div>
+            <div class="d-flex justify-content-between mt-2"> <!--is a division tag with Bootstrap classes applied. d-flex applies a flex layout, justify-content-between ensures that the child elements are evenly distributed in the line with space around them, and mt-2 applies a top margin.-->
+                <h5 class="text-start"> <!--text-star = bootstrap-->
+                    <a asp-controller="Item" 
+                       asp-action="Details" 
+                       asp-route-id="@Model.ItemId">@Model.Name</a> <!--is an anchor tag that generates a link to the Details action of the Item controller. asp-route-id="item.ItemId" sets the id route value to the ItemId property of the current item. item.Name displays the name of the item as the link text.-->
+                </h5>
+                <h5 class="text-nowrap"> <!--text-nowrap. This class prevents the text inside from wrapping to a new line. -->
+                    @Model.Price.ToString("0.00 NOK")
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>

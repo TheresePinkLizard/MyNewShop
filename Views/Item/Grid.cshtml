@@ -8,22 +8,7 @@ the items-->
 column per row on small screens and three columns per row on medium and larger screens.-->
         @foreach (var item in Model.Items)
         {
-            <div class="col"> <!--col represents a column in the grid for each item-->
-                <div>
-                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
-                    <div>
-                        <div class="d-flex justify-content-between mt-2"> <!--is a division tag with Bootstrap classes applied. d-flex applies a flex layout, justify-content-between ensures that the child elements are evenly distributed in the line with space around them, and mt-2 applies a top margin.-->
-                            <h5 class="text-start"> <!--text-star = bootstrap-->
-                                <a asp-controller="Item" asp-action="Details" asp-route-id="@item.ItemId">@item.Name</a> <!--is an anchor tag that generates a link to the Details action of the Item controller. asp-route-id="item.ItemId" sets the id route value to the ItemId property of the current item. item.Name displays the name of the item as the link text.-->
-                            </h5>
-                            <h5 class="text-nowrap"> <!--text-nowrap. This class prevents the text inside from wrapping to a new line. -->
-                                @item.Price.ToString("0.00 NOK")
-                            </h5>
-                        </div>
-                    </div>
-                
-                </div>
-            </div>
+            <partial name="_ItemCard" model="item" />  <!--Putter innhold fra _itemcard her-->
         }
 
     </div>
