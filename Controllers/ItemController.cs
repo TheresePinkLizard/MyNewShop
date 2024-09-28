@@ -47,6 +47,27 @@ public class ItemController : Controller
         return View(item); // returnerer view med et item
     }
 
+    //  Http Get og post for å gjøre CRUD
+    //Get: It returns a view (the "Create" view) that contains a form where the user can enter details for creating the new item
+    [HttpGet]
+    public IActionResult Create() // trigges når bruker navigerer til create siden
+    {
+        return View(); // returnerer view hvor bruker kan skrice inn detaljer for å lage et nytt item
+    }
+
+// post:  is used to handle the submission of the form when the user clicks the "Create" button
+    [HttpPost]
+    public IActionResult Create(Item item) // tar inn item objekt som parameter
+    {
+        if (ModelState.IsValid) // sjekker validering
+        {
+            _itemDbContext.Items.Add(item);  //legges til i database
+            _itemDbContext.SaveChanges(); // endringer lagres
+            return RedirectToAction(nameof(Table)); // redirects to show items in table
+        }
+        return View(item);
+    }
+}
 
 
     /*
@@ -90,7 +111,6 @@ public class ItemController : Controller
     }
     */
     
-}
 
 
 
