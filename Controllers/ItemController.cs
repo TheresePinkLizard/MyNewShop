@@ -67,6 +67,55 @@ public class ItemController : Controller
         }
         return View(item);
     }
+
+    // kodene under gjør at update og delete fungerer
+    [HttpGet]
+    public IActionResult Update(int id)  // denne metoden viser utfyllingsskjemaet for å oppdatere en eksisterende item
+    {                                   // metoden slår ut når bruker navigerer seg til update siden
+        var item = _itemDbContext.Items.Find(id); // henter fra database ved hjelp av id
+        if (item == null)               // sjekk om den finner item
+        {
+            return NotFound();
+        }
+        return View(item); 
+    }
+
+    [HttpPost]
+    public IActionResult Update(Item item)  // tar informasjonen som er skrevet i update skjema,
+    {                                           // ser hvis det er valid og oppdaterer i database
+        if (ModelState.IsValid)
+        {
+            _itemDbContext.Items.Update(item);
+            _itemDbContext.SaveChanges();
+            return RedirectToAction(nameof(Table)); // displayer den oppdaterte listen
+        }
+        return View(item);
+    }
+
+    [HttpGet]
+    public IActionResult Delete(int id)  // displayer confirmation page for å slette en item
+    {
+        var item = _itemDbContext.Items.Find(id);  // identifiserer og henter item som skal bli slettet
+        if (item == null)
+        {
+            return NotFound();
+        }
+        return View(item);   // hvis funnet, returnerer view med item data for bekreftelse
+    }
+
+    [HttpPost]
+    public IActionResult DeleteConfirmed(int id) // metoden som faktisk sletter item fra database
+    {
+        var item = _itemDbContext.Items.Find(id); // finner item i database ved bruk at id
+        if (item == null)
+        {
+            return NotFound();
+        }
+        _itemDbContext.Items.Remove(item); // sletter item
+        _itemDbContext.SaveChanges();  // lagrer endringene 
+        return RedirectToAction(nameof(Table)); //returnerer bruker til table view hvor item nå er fjernet
+    }
+    
 }
 
 
