@@ -8,7 +8,7 @@ public class ItemDbContext : DbContext // definerer at classen ItemDbContext arv
 {
     public ItemDbContext(DbContextOptions<ItemDbContext> options) : base (options) // konstruktør. konfigurerer database connection string
     {
-        Database.EnsureCreated(); // lager en tom database hvis den ikke eksisterer en database fra før av som er ssosiert med nåværende DbContext
+        //Database.EnsureCreated(); // lager en tom database hvis den ikke eksisterer en database fra før av som er ssosiert med nåværende DbContext
     }                              // lager database med schema(tables,indexes, etc) basert på nåværende model definert i DbContext
     public DbSet<Item> Items { // metoder for å lagre instanser av Item
         get;

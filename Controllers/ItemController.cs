@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyNewShop.Models;
 using MyNewShop.ViewModels;
+
 
 namespace MyNewShop.Controllers;
 
@@ -18,12 +20,16 @@ public class ItemController : Controller
         _itemDbContext = itemDbContext;                         //Konstruktøren blir kalt når en instans er laget, vanligvis under behandling av inkommende HTTP request. Når Views er kalt. eks: table grid, details
     }
 
+    // async i metodene:
+    // gjør siden mer responsive. den lar programmet kjøre flere tasks concurrently uten å blokkere main thread.
+    // dette får siden til å virke mer responsiv ved å la andre oppgaver gå i forveien istedet for at alt venter på et program.
+    // await hører også til async
 
     // en action som korresponderer til en brukers interaksjon, slik som å liste opp items når en url lastes
-    public IActionResult Table()
+    public async Task<IActionResult> Table()
     {  
         // henter alle items fra items table i databasen og konverterer til en liste
-        List<Item> items = _itemDbContext.Items.ToList();
+        List<Item> items = await _itemDbContext.Items.ToListAsync();
 
         var itemsViewModel = new ItemsViewModel(items, "Table");
         // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
@@ -31,16 +37,16 @@ public class ItemController : Controller
         return View(itemsViewModel);
     }
 
-    public IActionResult Grid()
+    public async Task<IActionResult> Grid()
     {
-        List<Item> items = _itemDbContext.Items.ToList();
+        List<Item> items = await _itemDbContext.Items.ToListAsync();
         var itemsViewModel = new ItemsViewModel(items, "Grid");
         return View(itemsViewModel);
     }
 
-    public IActionResult Details(int id)
+    public async Task<IActionResult> Details(int id)
     {
-        List<Item> items = _itemDbContext.Items.ToList();
+        List<Item> items = await _itemDbContext.Items.ToListAsync();
         var item = items.FirstOrDefault(i => i.ItemId == id); // søker igjennom listen items til første som matcher id
         if (item == null)
             return NotFound();
@@ -57,12 +63,12 @@ public class ItemController : Controller
 
 // post:  is used to handle the submission of the form when the user clicks the "Create" button
     [HttpPost]
-    public IActionResult Create(Item item) // tar inn item objekt som parameter
+    public async Task<IActionResult> Create(Item item) // tar inn item objekt som parameter
     {
         if (ModelState.IsValid) // sjekker validering
         {
             _itemDbContext.Items.Add(item);  //legges til i database
-            _itemDbContext.SaveChanges(); // endringer lagres
+           await _itemDbContext.SaveChangesAsync(); // endringer lagres
             return RedirectToAction(nameof(Table)); // redirects to show items in table
         }
         return View(item);
@@ -70,9 +76,9 @@ public class ItemController : Controller
 
     // kodene under gjør at update og delete fungerer
     [HttpGet]
-    public IActionResult Update(int id)  // denne metoden viser utfyllingsskjemaet for å oppdatere en eksisterende item
+    public async Task<IActionResult> Update(int id)  // denne metoden viser utfyllingsskjemaet for å oppdatere en eksisterende item
     {                                   // metoden slår ut når bruker navigerer seg til update siden
-        var item = _itemDbContext.Items.Find(id); // henter fra database ved hjelp av id
+        var item = await _itemDbContext.Items.FindAsync(id); // henter fra database ved hjelp av id
         if (item == null)               // sjekk om den finner item
         {
             return NotFound();
@@ -81,21 +87,21 @@ public class ItemController : Controller
     }
 
     [HttpPost]
-    public IActionResult Update(Item item)  // tar informasjonen som er skrevet i update skjema,
+    public async Task<IActionResult> Update(Item item)  // tar informasjonen som er skrevet i update skjema,
     {                                           // ser hvis det er valid og oppdaterer i database
         if (ModelState.IsValid)
         {
             _itemDbContext.Items.Update(item);
-            _itemDbContext.SaveChanges();
+            await _itemDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Table)); // displayer den oppdaterte listen
         }
         return View(item);
     }
 
     [HttpGet]
-    public IActionResult Delete(int id)  // displayer confirmation page for å slette en item
+    public async Task<IActionResult> Delete(int id)  // displayer confirmation page for å slette en item
     {
-        var item = _itemDbContext.Items.Find(id);  // identifiserer og henter item som skal bli slettet
+        var item = await _itemDbContext.Items.FindAsync(id);  // identifiserer og henter item som skal bli slettet
         if (item == null)
         {
             return NotFound();
@@ -104,15 +110,15 @@ public class ItemController : Controller
     }
 
     [HttpPost]
-    public IActionResult DeleteConfirmed(int id) // metoden som faktisk sletter item fra database
+    public async Task<IActionResult> DeleteConfirmed(int id) // metoden som faktisk sletter item fra database
     {
-        var item = _itemDbContext.Items.Find(id); // finner item i database ved bruk at id
+        var item = await _itemDbContext.Items.FindAsync(id); // finner item i database ved bruk at id
         if (item == null)
         {
             return NotFound();
         }
         _itemDbContext.Items.Remove(item); // sletter item
-        _itemDbContext.SaveChanges();  // lagrer endringene 
+        await _itemDbContext.SaveChangesAsync();  // lagrer endringene 
         return RedirectToAction(nameof(Table)); //returnerer bruker til table view hvor item nå er fjernet
     }
     
