@@ -9,6 +9,8 @@ namespace MyNewShop.Models
         public string? Description { get; set; }    
         public string? ImageUrl { get; set; }
 
+        // navigation property. allows you to navigate from one entity to related entities
+        public List<OrderItem>? OrderItems { get; set; }
         
     }
 }
