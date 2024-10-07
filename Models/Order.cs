@@ -7,9 +7,9 @@ public class Order
     public int CustomerId { get; set; } 
 
      // navigation property
-    public Customer Customer { get; set; } = default!;
+    public virtual Customer Customer { get; set; } = default!;
 
      // navigation property
-    public List<OrderItem>? OrderItems { get; set; } 
+    public virtual List<OrderItem>? OrderItems { get; set; } 
     public decimal TotalPrice { get; set; }
 }

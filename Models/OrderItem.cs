@@ -7,12 +7,12 @@ public class OrderItem
 
 
      // navigation property
-    public Item Item { get; set; } = default!;
+    public virtual Item Item { get; set; } = default!;
     public int Quantity { get; set; }
     public int OrderId { get; set; }
 
      // navigation property
-    public Order Order { get; set; } = default!;
+    public virtual Order Order { get; set; } = default!;
     public decimal OrderItemsPrice { get; set; }
   
 }

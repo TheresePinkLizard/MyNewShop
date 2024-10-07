@@ -10,7 +10,7 @@ namespace MyNewShop.Models
         public string? ImageUrl { get; set; }
 
         // navigation property. allows you to navigate from one entity to related entities
-        public List<OrderItem>? OrderItems { get; set; }
+        public virtual List<OrderItem>? OrderItems { get; set; } // virtual er lazy loading funksjonalitet
         
     }
 }
